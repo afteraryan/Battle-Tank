@@ -4,20 +4,29 @@ public class TankController
 {
     private TankView _tankView;
     private TankModel _tankModel;
-    
+
+    private Rigidbody rb;
+
     public TankController(TankView tankView, TankModel tankModel)
     {
-        _tankView = tankView;
         _tankModel = tankModel;
-        
+        _tankView = GameObject.Instantiate<TankView>(tankView);
+
         _tankView.SetController(this);
         _tankModel.SetController(this);
         
-        InstantiateTank();
+        rb = _tankView.GetRigidBody();
     }
 
-    private void InstantiateTank()
+    public void Move(float movement, float speed)
     {
-        GameObject.Instantiate(_tankView.gameObject);
+        rb.velocity = _tankView.transform.forward * movement * speed;
+    }
+    
+    public void Rotate(float rotation, float speed)
+    {
+        float turn = rotation * speed * Time.deltaTime;
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+        rb.MoveRotation(rb.rotation * turnRotation);
     }
 }
