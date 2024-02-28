@@ -9,6 +9,11 @@ public class TankView : MonoBehaviour
     private float _movement;
     private float _rotation;
 
+    private void Start()
+    {
+        SetCamera();
+    }
+
     private void Update()
     {
         Move();
@@ -25,10 +30,10 @@ public class TankView : MonoBehaviour
         CalculateMovement();
         
         if (_movement != 0)
-            _tankController.Move(_movement, 25);
+            _tankController.Move(_movement, _tankController.GetTankModel()._movementSpeed);
         
         if(_rotation != 0)
-            _tankController.Rotate(_rotation, 80);
+            _tankController.Rotate(_rotation, _tankController.GetTankModel()._rotationSpeed);
     }
 
     public void SetController(TankController tankController)
@@ -39,5 +44,12 @@ public class TankView : MonoBehaviour
     public Rigidbody GetRigidBody()
     {
         return rb;
+    }
+
+    private void SetCamera()
+    {
+        GameObject cam = GameObject.Find("Main Camera");
+        cam.transform.SetParent(transform);
+        cam.transform.position = new Vector3(0, 3, -4);
     }
 }

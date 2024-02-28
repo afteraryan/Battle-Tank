@@ -29,4 +29,9 @@ public class TankController
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
         rb.MoveRotation(rb.rotation * turnRotation);
     }
+
+    public TankModel GetTankModel()
+    {
+        return _tankModel;
+    }
 }
